@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+// Fungsi untuk menampilkan papan Tic-Tac-Toe
+void tampilkanPapan(char board[3][3]) {
+    printf("\n");
+    printf("  0   1   2 \n"); // Indeks kolom
+    for (int i = 0; i < 3; i++) {
+        printf("%d ", i); // Indeks baris
+        for (int j = 0; j < 3; j++) {
+            printf(" %c ", board[i][j]);
+            if (j < 2) printf("|");
+        }
+        printf("\n");
+        if (i < 2) printf("  ---|---|---\n");
+    }
+    printf("\n");
+}
+
+int main() {
+    // Inisialisasi papan kosong dengan spasi ' '
+    char board[3][3] = {
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+        {' ', ' ', ' '}
+    };
+
+    char pemain = 'X';
+    int baris, kolom;
+    int langkah = 0;
+
+    printf("=== GAME TIC-TAC-TOEl ===\n");
+
+    while (langkah < 9) {
+        tampilkanPapan(board);
+        printf("Giliran pemain [%c]\n", pemain);
+        printf("Masukkan baris dan kolom (contoh: 0 1): ");
+        
+        // Membaca input baris dan kolom
+        if (scanf("%d %d", &baris, &kolom) != 2) {
+            printf("Input tidak valid! Harap masukkan angka.\n");
+            // Membersihkan buffer input jika terjadi kesalahan
+            while (getchar() != '\n');
+            continue;
+        }
+
+        // Validasi input
+        if (baris < 0 || baris > 2 || kolom < 0 || kolom > 2) {
+            printf("Posisi di luar jangkauan (pilih 0, 1, atau 2)!\n");
+        } else if (board[baris][kolom] != ' ') {
+            printf("Kotak tersebut sudah terisi! Pilih kotak lain.\n");
+        } else {
+            // Isi kotak dan ganti giliran
+            board[baris][kolom] = pemain;
+            langkah++;
+            pemain = (pemain == 'X') ? 'O' : 'X';
+        }
+    }
+
+    tampilkanPapan(board);
+    printf("Permainan Selesai!\n");
+
+    return 0;
+}
